@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 2.6)
 
 project (caffe2_cpp_tutorial)
 
+option(USE_CUDA "Use CUDA" OFF)
+
 find_package(Protobuf REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(OpenCV REQUIRED)
@@ -14,7 +16,7 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 if(OpenCV_LIBS)
   include_directories(${OpenCV_INCLUDE_DIRS})
 endif()
-if(CUDA_LIBRARIES)
+if(USE_CUDA AND CUDA_LIBRARIES)
   include_directories(${CUDA_INCLUDE_DIRS})
 endif()
 
@@ -23,7 +25,9 @@ find_library(CAFFE2_GPU_LIB caffe2_gpu)
 find_library(GLOG_LIB glog)
 find_library(GFLAGS_LIB gflags)
 find_library(GTEST_LIB gtest)
-find_library(NCCL_LIB nccl) # Somehow necessary to prevent "undefined reference to `ncclReduceScatter'"
+if (USE_CUDA)
+  find_library(NCCL_LIB nccl) # Somehow necessary to prevent "undefined reference to `ncclReduceScatter'"
+endif()
 
 set(PB_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src/caffe2/util")
 execute_process(
@@ -54,7 +58,7 @@ file(GLOB LIB_SOURCES "${PROJECT_SOURCE_DIR}/src/caffe2/util/*.cc" "${PROJECT_SO
 add_library(caffe2_cpp ${LIB_SOURCES})
 link_whole_archive(caffe2_cpp)
 
-if(CUDA_LIBRARIES)
+if(USE_CUDA AND CUDA_LIBRARIES)
   # set(CUDA_PROPAGATE_HOST_FLAGS OFF)
   list(APPEND CUDA_NVCC_FLAGS "-Wno-deprecated-gpu-targets")
   file(GLOB CUDA_SOURCES "${PROJECT_SOURCE_DIR}/src/caffe2/operator/*.cu")
@@ -78,7 +82,7 @@ if(OpenCV_LIBS)
   add_definitions(-DWITH_OPENCV)
 endif()
 
-if(CUDA_LIBRARIES)
+if(USE_CUDA AND CUDA_LIBRARIES)
   list(APPEND ALL_LIBRARIES ${CUDA_LIBRARIES} ${CUDA_CUDART_LIBRARY} ${CUDA_curand_LIBRARY} ${NCCL_LIB})
   add_definitions(-DWITH_CUDA)
 endif()
