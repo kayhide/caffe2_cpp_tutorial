@@ -5,7 +5,7 @@
 namespace caffe2 {
 
 void print(const Blob *blob, const std::string &name) {
-  auto &tensor = blob->Get<TensorCPU>();
+  auto tensor = blob->Get<TensorCPU>();
   const auto &data = tensor.data<float>();
   std::cout << name << "(" << tensor.dims()
             << "): " << std::vector<float>(data, data + tensor.size())

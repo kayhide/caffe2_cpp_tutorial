@@ -199,18 +199,17 @@ void read_image_tensor(TensorCPU &tensor,
 void TensorUtil::ReadImages(const std::vector<std::string> &filenames,
                             int width, int height, std::vector<int> &indices,
                             float mean, TensorProto::DataType type) {
-  TensorCPU t = tensor_.Clone();
   switch (type) {
     case TensorProto_DataType_FLOAT:
-      read_image_tensor<float>(t, filenames, width, height, indices, mean,
+      read_image_tensor<float>(tensor_, filenames, width, height, indices, mean,
                                type);
       break;
     case TensorProto_DataType_INT8:
-      read_image_tensor<int8_t>(t, filenames, width, height, indices,
+      read_image_tensor<int8_t>(tensor_, filenames, width, height, indices,
                                 mean, type);
       break;
     case TensorProto_DataType_UINT8:
-      read_image_tensor<uint8_t>(t, filenames, width, height, indices,
+      read_image_tensor<uint8_t>(tensor_, filenames, width, height, indices,
                                  mean, type);
       break;
     default:

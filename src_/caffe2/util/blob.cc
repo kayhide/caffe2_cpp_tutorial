@@ -7,7 +7,7 @@
 
 namespace caffe2 {
 
-const TensorCPU &BlobUtil::Get() {
+TensorCPU BlobUtil::Get() {
 #ifdef WITH_CUDA
   if (blob_.IsType<TensorCUDA>()) {
     return TensorCPU(blob_.Get<TensorCUDA>());
@@ -30,7 +30,7 @@ void BlobUtil::Set(const TensorCPU &value, bool force_cuda) {
 }
 
 void BlobUtil::Print(const std::string &name, int max) {
-  auto &tensor = Get();
+  auto tensor = Get();
   TensorUtil(tensor).Print(name, max);
 }
 

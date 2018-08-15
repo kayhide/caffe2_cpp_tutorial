@@ -7,7 +7,7 @@ namespace caffe2 {
 
 class TensorUtil {
  public:
-  TensorUtil(Tensor<CPUContext>& tensor) : tensor_(tensor) {}
+  TensorUtil(const Tensor<CPUContext>& tensor) : tensor_(tensor) {}
 
   void ShowImages(const std::string& name, float scale = 1.0, float mean = 128,
                   bool flush = true);
@@ -25,7 +25,7 @@ class TensorUtil {
   void Print(const std::string& name = "", int max = 100);
 
  protected:
-  Tensor<CPUContext>& tensor_;
+  const Tensor<CPUContext>& tensor_;
 };
 
 }  // namespace caffe2

@@ -30,9 +30,9 @@ if (USE_CUDA)
 endif()
 
 set(PB_SOURCE_DIR "${PROJECT_SOURCE_DIR}/src/caffe2/util")
-execute_process(
-  COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} --proto_path=../caffe2 --proto_path=${PB_SOURCE_DIR} --cpp_out=${PB_SOURCE_DIR} "${PB_SOURCE_DIR}/model.proto"
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
+# execute_process(
+#  COMMAND ${PROTOBUF_PROTOC_EXECUTABLE} --proto_path=../caffe2 --proto_path=${PB_SOURCE_DIR} --cpp_out=${PB_SOURCE_DIR} "${PB_SOURCE_DIR}/model.proto"
+#  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC ")
 

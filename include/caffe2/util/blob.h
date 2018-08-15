@@ -10,7 +10,7 @@ class BlobUtil {
  public:
   BlobUtil(Blob &blob) : blob_(blob) {}
 
-  TensorCPU Get();
+  const TensorCPU &Get();
   void Set(const TensorCPU &value, bool force_cuda = false);
   void Print(const std::string &name = "", int max = 100);
 
