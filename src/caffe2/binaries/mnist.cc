@@ -148,6 +148,45 @@ namespace caffe2 {
     model.predict.AddAccuracyOp("softmax", "label", "accuracy");
   }
 
+  void Save(ModelUtil& model, const std::string dir) {
+    {
+      auto file = dir + "/" + model.init.net.name() + ".pbtxt";
+      model.init.WriteText(file);
+      std::cout << "create: " << file << std::endl;
+    }
+    {
+      auto file = dir + "/" + model.init.net.name() + ".pb";
+      model.init.Write(file);
+      std::cout << "create: " << file << std::endl;
+    }
+    {
+      auto file = dir + "/" + model.predict.net.name() + ".pbtxt";
+      model.predict.WriteText(file);
+      std::cout << "create: " << file << std::endl;
+    }
+    {
+      auto file = dir + "/" + model.predict.net.name() + ".pb";
+      model.predict.Write(file);
+      std::cout << "create: " << file << std::endl;
+    }
+  }
+
+  ModelUtil Load(const std::string dir, const std::string name) {
+    ModelUtil model(name);
+    {
+      auto file = dir + "/" + model.init.net.name() + ".pb";
+      model.init.Read(file);
+      std::cout << "load: " << file << std::endl;
+    }
+    {
+      auto file = dir + "/" + model.predict.net.name() + ".pb";
+      model.predict.Read(file);
+      std::cout << "load: " << file << std::endl;
+    }
+    return model;
+  }
+
+
 
   void run () {
 
